@@ -13,7 +13,7 @@ import { useData } from '../../context/DataContext';
 import { formatBDT } from '../../utils/format';
 import { startingPriceFor } from '../../utils/pricingCalculator';
 
-const Accent = ({ children }) => <span className="text-brand-600">{children}</span>;
+export const Accent = ({ children }) => <span className="text-brand-600">{children}</span>;
 
 function Counter({ value, suffix }) {
   const ref = useRef(null);
@@ -25,23 +25,6 @@ function Counter({ value, suffix }) {
     return () => animation.stop();
   }, [inView, value]);
   return <span ref={ref}>{displayValue.toLocaleString('en-IN')}{suffix}</span>;
-}
-
-export function StatsSection() {
-  return (
-    <section className="py-12">
-      <div className="container-x">
-        <div className="grid grid-cols-2 gap-6 rounded-3xl bg-navy-900 px-6 py-10 text-center md:grid-cols-4 md:px-12">
-          {stats.map((stat) => (
-            <div key={stat.label}>
-              <p className="font-display text-3xl font-extrabold text-white sm:text-4xl"><Counter value={stat.value} suffix={stat.suffix} /></p>
-              <p className="mt-1 text-sm text-navy-200">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
 }
 
 export function StatsBand() {
@@ -59,6 +42,16 @@ export function StatsBand() {
   );
 }
 
+export function ServicePhotoCard({ service }) {
+  return (
+    <Link to={`/services/${service.slug}`} className="group card block h-full p-3 transition duration-300 hover:-translate-y-1 hover:shadow-lift">
+      <div className="overflow-hidden rounded-xl"><Img src={service.image} alt={service.name} className="aspect-[4/3] w-full transition duration-500 group-hover:scale-105" /></div>
+      <h3 className="mt-4 px-2 text-lg font-bold text-brand-600">{service.name}</h3>
+      <p className="mt-1 px-2 pb-3 text-sm leading-relaxed text-navy-500">{service.short}</p>
+    </Link>
+  );
+}
+
 export function ServicesShowcase() {
   const { services } = useData();
   return (
@@ -68,11 +61,7 @@ export function ServicesShowcase() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.filter((service) => service.active).slice(0, 6).map((service, index) => (
             <Reveal key={service.slug} delay={(index % 3) * 0.06}>
-              <Link to={`/services/${service.slug}`} className="group card block h-full p-3 transition duration-300 hover:-translate-y-1 hover:shadow-lift">
-                <div className="overflow-hidden rounded-xl"><Img src={service.image} alt={service.name} className="aspect-[4/3] w-full transition duration-500 group-hover:scale-105" /></div>
-                <h3 className="mt-4 px-2 text-lg font-bold text-brand-600">{service.name}</h3>
-                <p className="mt-1 px-2 pb-3 text-sm leading-relaxed text-navy-500">{service.short}</p>
-              </Link>
+              <ServicePhotoCard service={service} />
             </Reveal>
           ))}
         </div>
