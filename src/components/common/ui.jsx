@@ -26,10 +26,10 @@ export function Badge({ children, tone, className }) {
   );
 }
 
-export function SectionHeading({ eyebrow, title, subtitle, center = true, className }) {
+export function SectionHeading({ eyebrow, title, subtitle, center = true, pill, className }) {
   return (
     <div className={cn('mb-12 max-w-2xl', center && 'mx-auto text-center', className)}>
-      {eyebrow && <span className="eyebrow mb-4">{eyebrow}</span>}
+      {eyebrow && <span className={cn('mb-4', pill ? 'inline-block rounded-full bg-brand-100 px-4 py-1 text-xs font-semibold text-brand-700' : 'eyebrow')}>{eyebrow}</span>}
       <h2 className="text-3xl font-extrabold sm:text-4xl">{title}</h2>
       {subtitle && <p className="mt-4 text-lg leading-relaxed text-navy-500">{subtitle}</p>}
     </div>

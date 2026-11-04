@@ -16,6 +16,7 @@ export const publicLinks = [
   { to: '/ai-assistant', label: 'AI Assistant' },
   { to: '/contact', label: 'Contact' },
 ];
+const headerLinks = publicLinks.filter((link) => link.to !== '/ai-assistant');
 
 export function Logo({ light, className }) {
   return (
@@ -42,14 +43,14 @@ export default function Navbar() {
   }, []);
 
   const dashTo = homeFor(user?.role);
-  const linkCls = ({ isActive }) => cn('rounded-lg px-3 py-2 text-sm font-medium transition', isActive ? 'text-brand-700 bg-brand-50' : 'text-navy-600 hover:text-navy-900 hover:bg-navy-50');
+  const linkClassName = ({ isActive }) => cn('rounded-lg px-3 py-2 text-sm font-medium transition', isActive ? 'text-brand-700 bg-brand-50' : 'text-navy-600 hover:text-navy-900 hover:bg-navy-50');
 
   return (
     <header className={cn('sticky top-0 z-50 bg-white/85 backdrop-blur-lg transition-shadow', scrolled && 'shadow-soft')}>
       <nav className="container-x flex h-18 items-center justify-between py-3">
         <Logo />
         <div className="hidden items-center gap-1 xl:flex">
-          {publicLinks.map((l) => <NavLink key={l.to} to={l.to} end={l.to === '/'} className={linkCls}>{l.label}</NavLink>)}
+          {headerLinks.map((link) => <NavLink key={link.to} to={link.to} end={link.to === '/'} className={linkClassName}>{link.label}</NavLink>)}
         </div>
         <div className="hidden items-center gap-2 xl:flex">
           {user ? (
@@ -67,7 +68,7 @@ export default function Navbar() {
         {open && (
           <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden border-t border-navy-100 bg-white xl:hidden">
             <div className="container-x flex flex-col gap-1 py-4">
-              {publicLinks.map((l) => <NavLink key={l.to} to={l.to} end={l.to === '/'} className={linkCls}>{l.label}</NavLink>)}
+              {headerLinks.map((link) => <NavLink key={link.to} to={link.to} end={link.to === '/'} className={linkClassName}>{link.label}</NavLink>)}
               <div className="mt-3 grid grid-cols-2 gap-2">
                 <Button to={user ? dashTo : '/login'} variant="outline">{user ? 'Dashboard' : 'Login'}</Button>
                 <Button to="/appointment">Book Appointment</Button>

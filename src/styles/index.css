@@ -22,6 +22,7 @@
   --color-teal-100: #c9f1f6;
   --color-teal-500: #12b5cb;
   --color-teal-600: #0b96aa;
+  --color-cream: #faf7f2;
   --shadow-soft: 0 1px 2px rgb(13 22 40 / 0.04), 0 8px 24px -8px rgb(13 22 40 / 0.08);
   --shadow-lift: 0 2px 4px rgb(13 22 40 / 0.04), 0 20px 40px -12px rgb(13 22 40 / 0.16);
 }
@@ -46,4 +47,12 @@
   .btn-gradient { @apply bg-gradient-to-r from-brand-600 to-teal-500 text-white shadow-md shadow-brand-600/25 hover:from-brand-700 hover:to-teal-600 hover:shadow-lg; }
   .dash-card { @apply rounded-2xl bg-white border border-navy-100/80 shadow-soft; }
   .eyebrow { @apply inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teal-600; }
+}
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee-track { animation: marquee 40s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .marquee-track { animation: none; }
 }

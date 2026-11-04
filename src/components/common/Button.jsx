@@ -4,6 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 
 const variants = {
   primary: 'btn-gradient',
+  solid: 'bg-brand-600 text-white hover:bg-brand-700',
   teal: 'bg-teal-600 text-white hover:bg-teal-500 shadow-sm shadow-teal-600/20',
   secondary: 'bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100 hover:bg-brand-100',
   outline: 'border border-navy-200 bg-white text-navy-800 hover:border-brand-500 hover:text-brand-700 hover:bg-brand-50',
