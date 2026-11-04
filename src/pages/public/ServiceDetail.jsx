@@ -1,10 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
 import { CheckCircle2, Clock, ChevronRight } from 'lucide-react';
 import Img from '../../components/common/Img';
-import Icon from '../../components/common/Icon';
-import DentistCard from '../../components/common/DentistCard';
 import PricingCard from '../../components/services/PricingCard';
-import ServiceCard from '../../components/services/ServiceCard';
+import { DentistPhotoCard, ServicePhotoCard } from '../../components/home/HomeSections';
 import { Accordion, Reveal } from '../../components/common/ui';
 import { useData } from '../../context/DataContext';
 import NotFound from './NotFound';
@@ -12,71 +10,70 @@ import NotFound from './NotFound';
 export default function ServiceDetail() {
   const { slug } = useParams();
   const { getService, servicePrice, dentists, services } = useData();
-  const s = getService(slug);
-  if (!s || !s.active) return <NotFound />;
-  const team = dentists.filter((d) => d.services.includes(s.slug)).slice(0, 3);
-  const related = services.filter((x) => x.active && x.slug !== s.slug).slice(0, 3);
+  const service = getService(slug);
+  if (!service || !service.active) return <NotFound />;
+  const team = dentists.filter((dentist) => dentist.services.includes(service.slug)).slice(0, 3);
+  const related = services.filter((other) => other.active && other.slug !== service.slug).slice(0, 3);
 
   return (
-    <>
-      <section className="border-b border-navy-100 bg-gradient-to-b from-brand-50/70 to-white">
+    <div className="bg-cream">
+      <section>
         <div className="container-x grid items-center gap-10 py-12 lg:grid-cols-2 lg:py-16">
           <Reveal>
-            <nav className="mb-5 flex items-center gap-1 text-sm text-navy-500"><Link to="/services" className="hover:text-brand-600">Services</Link><ChevronRight className="h-4 w-4" /><span className="text-navy-800">{s.name}</span></nav>
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-brand-600 shadow-soft"><Icon name={s.icon} className="h-7 w-7" /></span>
-            <h1 className="mt-5 text-4xl font-extrabold sm:text-5xl">{s.name}</h1>
-            <p className="mt-4 text-lg leading-relaxed text-navy-500">{s.description}</p>
-            <p className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-navy-600 shadow-soft"><Clock className="h-4 w-4 text-teal-600" />Estimated duration: <strong>{s.duration}</strong></p>
+            <nav className="mb-5 flex items-center gap-1 text-sm text-navy-500"><Link to="/services" className="hover:text-brand-600">Services</Link><ChevronRight className="h-4 w-4" /><span className="text-navy-800">{service.name}</span></nav>
+            <h1 className="text-4xl font-extrabold text-brand-600 sm:text-5xl">{service.name}</h1>
+            <p className="mt-4 text-lg leading-relaxed text-navy-500">{service.description}</p>
+            <p className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-navy-600 shadow-soft"><Clock className="h-4 w-4 text-brand-600" />Estimated duration: <strong>{service.duration}</strong></p>
           </Reveal>
-          <Img src={s.image} alt={s.name} className="aspect-[4/3] w-full rounded-3xl shadow-lift" />
+          <Img src={service.image} alt={service.name} className="aspect-[16/10] w-full rounded-3xl shadow-lift" />
         </div>
       </section>
 
-      <section className="section">
+      <section className="pb-16 pt-4 md:pb-20">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_340px]">
-          <div className="space-y-14">
+          <div className="min-w-0 space-y-12">
             <div>
               <h2 className="text-2xl font-bold">Benefits</h2>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {s.benefits.map((b) => <div key={b} className="flex gap-3 rounded-xl bg-teal-50/60 p-4"><CheckCircle2 className="h-5 w-5 shrink-0 text-teal-600" /><span className="text-navy-700">{b}</span></div>)}
+                {service.benefits.map((benefit) => <div key={benefit} className="flex gap-3 rounded-xl border border-teal-100 bg-teal-50 p-3"><CheckCircle2 className="h-5 w-5 shrink-0 text-teal-600" /><span className="text-sm text-navy-700">{benefit}</span></div>)}
               </div>
             </div>
             <div>
               <h2 className="text-2xl font-bold">Treatment process</h2>
-              <ol className="mt-6 space-y-0">
-                {s.process.map((p, i) => (
-                  <li key={p} className="relative flex gap-5 pb-8 last:pb-0">
-                    {i < s.process.length - 1 && <span className="absolute left-5 top-10 h-[calc(100%-2.5rem)] w-px bg-navy-100" />}
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 font-bold text-white">{i + 1}</span>
-                    <p className="pt-2 font-medium text-navy-800">{p}</p>
+              <ol className="mt-6">
+                {service.process.map((step, index) => (
+                  <li key={step} className="relative flex gap-4 pb-5 last:pb-0">
+                    {index < service.process.length - 1 && <span className="absolute left-4 top-8 h-[calc(100%-2rem)] w-px bg-brand-200" />}
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">{index + 1}</span>
+                    <p className="pt-1 font-medium text-navy-800">{step}</p>
                   </li>
                 ))}
               </ol>
             </div>
             <div>
               <h2 className="mb-5 text-2xl font-bold">Frequently asked questions</h2>
-              <Accordion items={s.faqs} />
+              <Accordion items={service.faqs} />
             </div>
             {team.length > 0 && (
               <div>
-                <h2 className="mb-5 text-2xl font-bold">Dentists for this treatment</h2>
-                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">{team.map((d) => <DentistCard key={d.id} dentist={d} compact />)}</div>
+                <h2 className="mb-5 text-2xl font-bold">Dentists For This Treatment</h2>
+                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">{team.map((dentist) => <DentistPhotoCard key={dentist.id} dentist={dentist} />)}</div>
               </div>
             )}
           </div>
           <aside className="lg:sticky lg:top-24 lg:h-fit">
-            <PricingCard title={s.name} price={servicePrice(s)} duration={s.duration} highlight ctaTo={`/appointment?service=${s.slug}`} features={['Consultation & examination', 'Personalised treatment plan', 'Transparent pricing before treatment']} />
+            <PricingCard title={service.name} price={servicePrice(service)} duration={service.duration} highlight ctaTo={`/appointment?service=${service.slug}`} features={['Consultation & examination', 'Personalised treatment plan', 'Transparent pricing before treatment']} />
             <p className="mt-3 px-2 text-xs text-navy-400">Starting price is a preliminary estimate and may vary after clinical examination.</p>
           </aside>
         </div>
       </section>
 
-      <section className="section bg-navy-50/50">
+      <section className="pb-16 md:pb-24">
         <div className="container-x">
-          <h2 className="mb-8 text-2xl font-bold">Related services</h2>
-          <div className="grid gap-6 md:grid-cols-3">{related.map((r) => <ServiceCard key={r.slug} service={r} />)}</div>
+          <h2 className="mb-8 text-2xl font-bold">Related Treatments</h2>
+          <div className="grid gap-6 md:grid-cols-3">{related.map((other) => <ServicePhotoCard key={other.slug} service={other} />)}</div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
