@@ -13,8 +13,8 @@ export default function PricingCard({ title, price, duration, features = [], cta
           {features.map((f) => <li key={f} className="flex gap-2"><Check className="h-4 w-4 shrink-0 text-teal-500" />{f}</li>)}
         </ul>
       )}
-      <Button to={ctaTo} variant={highlight ? 'teal' : 'primary'} className="mt-6 w-full">Book Appointment</Button>
-      <Button to="/cost-estimator" variant="ghost" className={`mt-2 w-full ${highlight ? 'text-navy-200 hover:bg-white/10 hover:text-white' : ''}`}>Get a detailed estimate</Button>
+      <Button to={ctaTo} variant={highlight ? 'solid' : 'primary'} className="mt-6 w-full">Book Appointment</Button>
+      <Button to="/cost-estimator" variant={highlight ? 'white' : 'ghost'} className="mt-2 w-full">Get a detailed estimate</Button>
     </div>
   );
 }

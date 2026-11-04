@@ -16,7 +16,7 @@ export const publicLinks = [
   { to: '/ai-assistant', label: 'AI Assistant' },
   { to: '/contact', label: 'Contact' },
 ];
-const headerLinks = publicLinks.filter((link) => link.to !== '/ai-assistant');
+const headerLinks = publicLinks.filter((link) => link.to !== '/ai-assistant' && link.to !== '/cost-estimator');
 
 export function Logo({ light, className }) {
   return (

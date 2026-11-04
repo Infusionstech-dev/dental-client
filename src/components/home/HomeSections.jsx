@@ -92,6 +92,26 @@ export function WhyChooseUs() {
   );
 }
 
+export function DentistPhotoCard({ dentist }) {
+  return (
+    <div className="card flex h-full flex-col p-3">
+      <Img src={dentist.photo} alt={dentist.name} className="aspect-[4/3.6] w-full rounded-xl object-top" />
+      <div className="flex flex-1 flex-col p-2 pt-4">
+        <h3 className="text-xl font-bold text-brand-600">{dentist.name}</h3>
+        <p className="text-sm font-medium text-navy-700">{dentist.title}</p>
+        <div className="mt-2 space-y-1 text-sm text-navy-500">
+          <p className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-navy-400" />{dentist.availability.join(', ')}</p>
+          <p className="flex items-center gap-2"><Award className="h-4 w-4 text-navy-400" />{dentist.experience} years experience</p>
+        </div>
+        <div className="mt-auto flex gap-2 pt-4">
+          <Button to={`/dentists/${dentist.id}`} variant="outline" size="sm" className="flex-1">View Details</Button>
+          <Button to={`/appointment?dentist=${dentist.id}`} variant="solid" size="sm" className="flex-1">Book Now</Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function TeamSection() {
   const { dentists } = useData();
   return (
@@ -101,21 +121,7 @@ export function TeamSection() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {dentists.filter((dentist) => dentist.featured).slice(0, 3).map((dentist, index) => (
             <Reveal key={dentist.id} delay={index * 0.06}>
-              <div className="card flex h-full flex-col p-3">
-                <Img src={dentist.photo} alt={dentist.name} className="aspect-[4/3.6] w-full rounded-xl object-top" />
-                <div className="flex flex-1 flex-col p-2 pt-4">
-                  <h3 className="text-xl font-bold text-brand-600">{dentist.name}</h3>
-                  <p className="text-sm font-medium text-navy-700">{dentist.title}</p>
-                  <div className="mt-2 space-y-1 text-sm text-navy-500">
-                    <p className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-navy-400" />{dentist.availability.join(', ')}</p>
-                    <p className="flex items-center gap-2"><Award className="h-4 w-4 text-navy-400" />{dentist.experience} years experience</p>
-                  </div>
-                  <div className="mt-auto flex gap-2 pt-4">
-                    <Button to={`/dentists/${dentist.id}`} variant="outline" size="sm" className="flex-1">View Details</Button>
-                    <Button to={`/appointment?dentist=${dentist.id}`} variant="solid" size="sm" className="flex-1">Book Now</Button>
-                  </div>
-                </div>
-              </div>
+              <DentistPhotoCard dentist={dentist} />
             </Reveal>
           ))}
         </div>
